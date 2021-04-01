@@ -2,6 +2,7 @@
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const ObjectId = require('mongodb').ObjectId
 const app = express()
 app.use(cors())
 app.use(bodyParser.json())
@@ -53,14 +54,14 @@ client.connect(err => {
 
 
 
-    app.post('/addProducts', (req, res) => {
-        const products = req.body;
-        productsCollection.insertMany(products)
-            .then(result => {
-                console.log(result)
-                res.send(result.insertedCount)
-            })
-    })
+    // app.post('/addProducts', (req, res) => {
+    //     const products = req.body;
+    //     productsCollection.insertMany(products)
+    //         .then(result => {
+    //             console.log(result)
+    //             res.send(result.insertedCount)
+    //         })
+    // })
 
     app.get('/products', (req, res) => {
         productsCollection.find({})
@@ -68,6 +69,14 @@ client.connect(err => {
                 res.send(documents)
             })
 
+    })
+
+    app.delete('/delete/:id', (req, res) => {
+        productsCollection.deleteOne({ _id: ObjectId(req.params.id) })
+            .then(result => {
+                res.send(result.deletedCount > 0)
+
+            })
     })
 
 
