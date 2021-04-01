@@ -52,17 +52,6 @@ client.connect(err => {
 
     })
 
-
-
-    // app.post('/addProducts', (req, res) => {
-    //     const products = req.body;
-    //     productsCollection.insertMany(products)
-    //         .then(result => {
-    //             console.log(result)
-    //             res.send(result.insertedCount)
-    //         })
-    // })
-
     app.get('/products', (req, res) => {
         productsCollection.find({})
             .toArray((err, documents) => {
